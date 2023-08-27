@@ -31,7 +31,22 @@ app.get('/:operands/:operator/:operands2/:operator2/:operands3', (req, res) => {
   
     // Send JSON response
     res.json({ question, answer });
-  });
+});
+
+app.get('/:operands/:operator/:operands2/:operator2/:operands3/:operator3/:operands4', (req, res) => {
+    const { operands, operator, operands2, operator2, operands3, operator3, operands4 } = req.params;
+    const question = `${operands}/${operator}/${operands2}/${operator2}/${operands3}/${operator3}/${operands4}`;
+    const answer1 = calculate(operands, operator, operands2);
+    const answer2 = calculate(answer1, operator2, operands3);
+    const answer = calculate(answer2, operator3, operands4);
+    
+    // Add this operation to the history
+    addToHistory(question, answer);
+  
+    // Send JSON response
+    res.json({ question, answer });
+});
+
 
 // Endpoint to view the history
 app.get('/history', (req, res) => {
